@@ -1,8 +1,11 @@
+<?php include 'header.php'; ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  
   <meta charset="UTF-8" />
-  <title>Dictionary of Legal Terms</title>
+ <title>Dictionary of Legal Terms</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -83,7 +86,7 @@
 </head>
 <body>
 
-  <header>Dictionary of Legal Terms</header>
+ 
 
   <main>
     <div class="search-container">
@@ -103,14 +106,20 @@
   </main>
 
   <script>
+    
     let selectedLanguage = 'en';
 
     function changeLanguage(lang) {
-      selectedLanguage = lang;
-      document.getElementById('btn-en').classList.remove('active');
-      document.getElementById('btn-ms').classList.remove('active');
-      document.getElementById('btn-' + lang).classList.add('active');
-    }
+  selectedLanguage = lang;
+  document.getElementById('btn-en').classList.remove('active');
+  document.getElementById('btn-ms').classList.remove('active');
+  document.getElementById('btn-' + lang).classList.add('active');
+
+  const currentTerm = document.getElementById('searchTerm').value.trim().toLowerCase();
+  if (currentTerm) {
+    searchTerm(); // Auto re-search in new language
+  }
+}
 
     function searchTerm() {
       const term = document.getElementById('searchTerm').value.trim().toLowerCase();
@@ -120,18 +129,35 @@
       }
 
       fetch(`db.php?term=${encodeURIComponent(term)}&lang=${selectedLanguage}`)
+  .then(response => response.json())
+  .then(data => {
+    if (data.definition === "No definition found.") {
+      // Try the opposite language
+      const newLang = selectedLanguage === 'en' ? 'ms' : 'en';
+      return fetch(`db.php?term=${encodeURIComponent(term)}&lang=${newLang}`)
         .then(response => response.json())
-        .then(data => {
-          document.getElementById('fileName').innerText = data.file_name || 'N/A';
-          document.getElementById('definition').innerText = data.definition || 'Definition not found.';
+        .then(altData => {
+          document.getElementById('fileName').innerText = altData.file_name || term;
+          document.getElementById('definition').innerText = altData.definition;
           document.getElementById('result').style.display = 'block';
-        })
-        .catch(error => {
-          document.getElementById('fileName').innerText = term;
-          document.getElementById('definition').innerText = 'Error connecting to server.';
-          document.getElementById('result').style.display = 'block';
+          changeLanguage(newLang); // Switch button state
         });
+    } else {
+      document.getElementById('fileName').innerText = data.file_name || term;
+      document.getElementById('definition').innerText = data.definition;
+      document.getElementById('result').style.display = 'block';
     }
+  })
+    }
+    window.onload = () => {
+  document.getElementById("searchTerm").focus();
+};
+
+    
   </script>
 </body>
 </html>
+<?php include 'footer.php'; ?>
+
+
+
