@@ -1,0 +1,101 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-image: url('lawbg.jpg'); /* Update with your actual image path */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+header {
+    background-color: rgba(0, 64, 133, 0.9);
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 24px;
+}
+
+header .language-menu button {
+    background-color: white;
+    color: #004085;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+header .language-menu button:hover {
+    background-color: #cce5ff;
+}
+
+nav {
+    background-color: rgba(241, 241, 241, 0.8);
+    padding: 10px 20px;
+    text-align: center;
+}
+
+nav a {
+    margin: 0 10px;
+    text-decoration: none;
+    color: #004085;
+    font-weight: bold;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+main {
+    padding: 20px;
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.9);
+    margin: 20px auto;
+    max-width: 80%;
+    border-radius: 10px;
+}
+
+.search-container input[type="text"] {
+    width: calc(100% - 120px);
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px 0 0 5px;
+}
+
+.search-container button {
+    padding: 10px;
+    background-color: #004085;
+    color: white;
+    border: none;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+}
+
+.search-container button:hover {
+    background-color: #003366;
+}
+
+.alphabet-links a {
+    margin: 5px;
+    text-decoration: none;
+    color: #004085;
+    font-weight: bold;
+}
+
+.alphabet-links a:hover {
+    text-decoration: underline;
+}
+
+.result {
+    margin-top: 20px;
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 5px;
+    text-align: left;
+}
