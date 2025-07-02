@@ -1,12 +1,10 @@
-<?php
-include 'header.php';
-?>
+<?php include 'header.php'; ?>
+<head>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
 <main>
-    <div id="home">
-        <h2>Welcome to the Legal Terms Diction</h2>
-        <p>Navigate through our dictionary to explore legal terms and definitions or search for specific terms using the search bar.</p>
-    </div>
+  <h2>Welcome to the Legal Terms Dictionary</h2>
+  <p>Search and explore legal terms in English and Malay.</p>
 </main>
-<?php
-include 'footer.php';
-?>
+<?php include 'footer.php'; ?>
