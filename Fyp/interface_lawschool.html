@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dictionary of Legal Terms</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+    }
+
+    header {
+      background-color: #004085;
+      padding: 15px 20px;
+      color: white;
+      font-weight: bold;
+      font-size: 20px;
+    }
+
+    nav {
+      background-color: #f2f2f2;
+      text-align: center;
+      padding: 10px 0;
+    }
+
+    nav a {
+      margin: 0 15px;
+      text-decoration: none;
+      color: #004085;
+      font-weight: bold;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    main {
+      max-width: 800px;
+      margin: 30px auto;
+      text-align: center;
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      margin-bottom: 20px;
+    }
+
+    .search-container {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 15px;
+    }
+
+    .search-container input[type="text"] {
+      width: 250px;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-right: none;
+      border-radius: 5px 0 0 5px;
+    }
+
+    .search-container button {
+      padding: 9px 15px;
+      background-color: #004085;
+      color: white;
+      border: none;
+      border-radius: 0 5px 5px 0;
+      cursor: pointer;
+    }
+
+    .search-container button:hover {
+      background-color: #003366;
+    }
+
+    .lang-buttons {
+      margin-bottom: 20px;
+    }
+
+    .lang-buttons button {
+      padding: 6px 12px;
+      margin: 0 4px;
+      border: 1px solid #ccc;
+      background-color: #eee;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+
+    .lang-buttons button.active {
+      background-color: #004085;
+      color: white;
+      border-color: #004085;
+    }
+
+    .result-box {
+      text-align: left;
+      background-color: #fff;
+      border: 1px solid #ddd;
+      padding: 20px;
+      margin-top: 20px;
+      border-radius: 5px;
+    }
+
+    .result-box p {
+      margin: 8px 0;
+    }
+
+    .result-box strong {
+      display: inline-block;
+      width: 100px;
+    }
+  </style>
+</head>
+<body>
+  <header>Dictionary of Legal Terms</header>
+
+  <nav>
+    <a href="#">Home</a>
+    <a href="#">Dictionary</a>
+    <a href="#">About</a>
+    <a href="#">Contact</a>
+  </nav>
+
+  <main>
+    <h2>Legal Term Search</h2>
+
+    <div class="search-container">
+      <input type="text" id="searchTerm" placeholder="Enter legal term" />
+      <button onclick="searchTerm()">Search</button>
+    </div>
+
+    <div class="lang-buttons">
+      <button id="btn-ms" onclick="changeLanguage('ms')">Malay</button>
+      <button id="btn-en" class="active" onclick="changeLanguage('en')">English</button>
+    </div>
+
+    <div id="result" class="result-box" style="display:none;">
+      <p><strong>File Name:</strong> <span id="fileName"></span></p>
+      <p><strong>Definition:</strong> <span id="definition"></span></p>
+    </div>
+  </main>
+
+  <script>
+    let selectedLanguage = 'en';
+
+    function changeLanguage(lang) {
+      selectedLanguage = lang;
+
+      // Highlight active button
+      document.getElementById('btn-en').classList.remove('active');
+      document.getElementById('btn-ms').classList.remove('active');
+      document.getElementById('btn-' + lang).classList.add('active');
+    }
+
+    function searchTerm() {
+  const input = document.getElementById('searchTerm').value.trim().toLowerCase();
+  const resultBox = document.getElementById('result');
+  const fileName = document.getElementById('fileName');
+  const definition = document.getElementById('definition');
+
+  if (!input) {
+    alert("Please enter a term.");
+    return;
+  }
+
+  fetch(`db.php?term=${encodeURIComponent(input)}&lang=${selectedLanguage}`)
+    .then(response => response.json())
+    .then(data => {
+      fileName.innerText = data.file_name || input;
+      definition.innerText = data.definition;
+      resultBox.style.display = 'block';
+    })
+    .catch(error => {
+      fileName.innerText = input;
+      definition.innerText = "Error connecting to server.";
+      resultBox.style.display = 'block';
+    });
+}
